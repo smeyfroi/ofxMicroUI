@@ -225,7 +225,7 @@ public:
 		if (ui->pString["wave"] == "01") {
 			r = r > .5 ? 1.0 : 0.0;
 		}
-		else if (ui->pString["wave"] == "quarter") {
+		else if (ui->pString["wave"] == "qt") {
 			r = bpm3.getPercent();
 		}
 		else if (ui->pString["wave"] == "sin") {
@@ -237,7 +237,7 @@ public:
 		else if (ui->pString["wave"] == "qsin") {
 			r = ofMap(sin(bpm3.getPercent()*PI*2.0), -1, 1, 0, 1);
 		}
-		else if (ui->pString["wave"] == "invert") {
+		else if (ui->pString["wave"] == "inv") {
 			r = 1.0 - getPercent();
 		}
 		return r;
@@ -335,8 +335,11 @@ public:
 		if (_bpm != NULL) {
 			// linear
 			float r = _bpm->bpm.getPercent();
-			if (ui->pString["wave"] == "upbeat") {
+			if (ui->pString["wave"] == "up") { //contratempo
 				r = fmod(r+.5, 1.0);
+			}
+			else if (ui->pString["wave"] == "t") { //tick
+				r = r > 0.5 ? 1.0 : 0.0;
 			}
 			else if (ui->pString["wave"] == "half") {
 				r = _bpm->bpm2.getPercent();
@@ -344,7 +347,7 @@ public:
 			if (ui->pString["wave"] == "01") {
 				r = r > .5 ? 1.0 : 0.0;
 			}
-			else if (ui->pString["wave"] == "quarter") {
+			else if (ui->pString["wave"] == "qt") {
 				r = _bpm->bpm3.getPercent();
 			}
 			else if (ui->pString["wave"] == "sin") {
@@ -356,7 +359,7 @@ public:
 			else if (ui->pString["wave"] == "qsin") {
 				r = ofMap(sin(_bpm->bpm3.getPercent()*PI*2.0), -1, 1, 0, 1);
 			}
-			else if (ui->pString["wave"] == "invert") {
+			else if (ui->pString["wave"] == "inv") {
 				r = 1.0 - _bpm->getPercent();
 			}
 			return r;

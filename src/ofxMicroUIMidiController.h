@@ -13,6 +13,10 @@ ofxMicroUIMidiController
 #include "ofEvents.h"
 #include "ofxMidi.h"
 
+// tentativa 25 de nov de 2022 - we light festival
+#include "ofxMicroUI.h"
+#include "ofxMicroUISoftware.h"
+
 class ofxMicroUIMidiController : public ofBaseApp, public ofxMidiListener {
 public:
 	

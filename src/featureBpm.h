@@ -369,8 +369,10 @@ public:
 	}
 	
 	void draw() override {
-		fbo->begin();
-		drawTrails();
-		fbo->end();
+		if (fbo != NULL) {
+			fbo->begin();
+			drawTrails();
+			fbo->end();
+		}
 	}
 };

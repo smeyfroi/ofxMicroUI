@@ -261,16 +261,15 @@ public:
 	void newMidiMessage(ofxMidiMessage& msg);
 	void set(const string & midiDevice);
 
+	
 	void uiEventMidi(vector<string> & strings) {
 		elementLearn.nome = strings[0];
 		elementLearn.ui = strings[1];
 		elementLearn.tipo = "float";
 	}
 
-
 	void onExit(ofEventArgs &data) {
 		blackout();
-		
 		midiControllerOut.closePort();
 		midiControllerIn.closePort();
 	}

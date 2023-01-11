@@ -1,5 +1,7 @@
 #include "ofxMicroUIMidiController.h"
 
+//#ifdef USEMIDI
+
 void ofxMicroUIMidiController::newMidiMessage(ofxMidiMessage& msg) {
 //        cout << "newMidiMessage " << endl;
 	frameAction = ofGetFrameNum();
@@ -213,4 +215,35 @@ void ofxMicroUIMidiController::checkElement(const ofxMicroUI::element & e) {
 		}
 	}
 }
+
+void ofxMicroUIMidiController::uiEvent(ofxMicroUI::element & e) {
+	if (frameAction != ofGetFrameNum()) {
+		checkElement(e);
+	}
+}
+
+void ofxMicroUIMidiController::uiEventMaster(string & s) {
+	if (s == "setup") {
+		frameAction = ofGetFrameNum();
+		for (auto & e : _u->elements) {
+			checkElement(*e);
+		}
+		for (auto & u : _u->uis) {
+			for (auto & e : u.second.elements) {
+				checkElement(*e);
+			}
+		}
+	}
+}
+
+
+//ofxMicroUIMidiController::ofxMicroUIMidiController() {}
+
+ofxMicroUIMidiController::ofxMicroUIMidiController(ofxMicroUISoftware * _soft, string device) {
+	set(device);
+	setUI(*_soft->_ui);
+	ofAddListener(_u->uiEventMaster, this, &ofxMicroUIMidiController::uiEventMaster);
+}
+
 	
+//#endif

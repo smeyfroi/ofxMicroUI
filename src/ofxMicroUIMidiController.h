@@ -1,19 +1,16 @@
-/*
-ofxMicroUIMidiController
- Created by Dimitre Lima on 09/10/2019.
- Basically ported to ofxDmtrUI3MidiController.
- 
- //http://community.akaipro.com/akai_professional/topics/midi-information-for-apc-mini
- //127 = verde
-
-*/
-
 #pragma once
+
+
+//#ifdef USEMIDI
+
 #include "ofMain.h"
 #include "ofEvents.h"
 #include "ofxMidi.h"
 
 /*
+ //http://community.akaipro.com/akai_professional/topics/midi-information-for-apc-mini
+ //127 = verde
+
  All Notes Off. When an All Notes Off is received, all oscillators will turn off.
  c = 123, v = 0: All Notes Off (See text for description of actual mode commands.)
  c = 124, v = 0: Omni Mode Off
@@ -29,6 +26,12 @@ ofxMicroUIMidiController
 
 class ofxMicroUIMidiController : public ofBaseApp, public ofxMidiListener {
 public:
+	
+	
+	//	ofxMicroUIMidiController();
+	 ofxMicroUIMidiController(ofxMicroUISoftware * _soft, string device);
+	 ~ofxMicroUIMidiController() {};
+	
 	
 	unsigned int vals[64] = { 0 };
 
@@ -152,27 +155,7 @@ public:
 
 
 
-	ofxMicroUIMidiController() {}
-	ofxMicroUIMidiController(ofxMicroUISoftware * _soft, string device) {
-		set(device);
-		setUI(*_soft->_ui);
-		ofAddListener(_u->uiEventMaster, this, &ofxMicroUIMidiController::uiEventMaster);
-	}
 	
-	void uiEventMaster(string & s) {
-//        cout << "ofxMicroUIMidiController uiEventMaster :: " << s << endl;
-		if (s == "setup") {
-			frameAction = ofGetFrameNum();
-			for (auto & e : _u->elements) {
-				checkElement(*e);
-			}
-			for (auto & u : _u->uis) {
-				for (auto & e : u.second.elements) {
-					checkElement(*e);
-				}
-			}
-		}
-	}
 
 	map <int, map<int, int> > sentMidi;
 	void sendNote(int c, int p, int v) {
@@ -275,10 +258,9 @@ public:
 	}
 
 	void checkElement(const ofxMicroUI::element & e);
-	
-	void uiEvent(ofxMicroUI::element & e) {
-		if (frameAction != ofGetFrameNum()) {
-			checkElement(e);
-		}
-	}
+	void uiEvent(ofxMicroUI::element & e);
+	void uiEventMaster(string & s);
 };
+
+
+//#endif

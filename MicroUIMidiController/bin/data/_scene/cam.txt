@@ -1,3 +1,0 @@
-label	CAM GRABBER
-camList	cam1
-camList	cam2
